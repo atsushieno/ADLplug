@@ -612,7 +612,7 @@ void Generic_Main_Component<T>::handle_add_program()
         break;
     }
     case 2: {
-#if ! JUCE_ANDROID
+#if ! JUCE_ANDROID && ! JUCE_EMSCRIPTEN
         bool confirm = AlertWindow::showOkCancelBox(
             AlertWindow::QuestionIcon, "Delete program",
             fmt::format("Confirm deletion of program {:c}{:03d}?",
@@ -624,13 +624,13 @@ void Generic_Main_Component<T>::handle_add_program()
             msg.program = program & 127;
             msg.notify_back = true;
             write_to_processor(msg.tag, &msg, sizeof(msg));
-#if ! JUCE_ANDROID
+#if ! JUCE_ANDROID && ! JUCE_EMSCRIPTEN
         }
 #endif
         break;
     }
     case 3: {
-#if ! JUCE_ANDROID
+#if ! JUCE_ANDROID && ! JUCE_EMSCRIPTEN
         bool confirm = AlertWindow::showOkCancelBox(
             AlertWindow::QuestionIcon, "Delete bank",
             fmt::format("Confirm deletion of bank {:03d}:{:03d}?",
@@ -643,13 +643,13 @@ void Generic_Main_Component<T>::handle_add_program()
             write_to_processor(msg.tag, &msg, sizeof(msg));
             msg.bank.percussive = !bank.percussive;
             write_to_processor(msg.tag, &msg, sizeof(msg));
-#if ! JUCE_ANDROID
+#if ! JUCE_ANDROID && ! JUCE_EMSCRIPTEN
         }
 #endif
         break;
     }
     case 4: {
-#if ! JUCE_ANDROID
+#if ! JUCE_ANDROID && ! JUCE_EMSCRIPTEN
         bool confirm = AlertWindow::showOkCancelBox(
             AlertWindow::QuestionIcon, "Delete all banks",
             fmt::format("Confirm deletion of all banks?"));
@@ -658,7 +658,7 @@ void Generic_Main_Component<T>::handle_add_program()
             Messages::User::ClearBanks msg;
             msg.notify_back = true;
             write_to_processor(msg.tag, &msg, sizeof(msg));
-#if ! JUCE_ANDROID
+#if ! JUCE_ANDROID && ! JUCE_EMSCRIPTEN
         }
 #endif
         break;
@@ -804,7 +804,7 @@ void Generic_Main_Component<T>::handle_load_bank(Component *clicked)
     MySelectionCallback *callback = nullptr;
     callback = new MySelectionCallback([=](int selection) {
     if (selection == 1) {
-#if JUCE_ANDROID
+#if JUCE_ANDROID || JUCE_EMSCRIPTEN
 		AlertWindow::showMessageBoxAsync(
 			AlertWindow::WarningIcon, TRANS("Not Supported..."), TRANS("Choosing file to load bank not supported."), "", nullptr, nullptr);
 #else
@@ -825,7 +825,7 @@ void Generic_Main_Component<T>::handle_load_bank(Component *clicked)
             return;
         }
 
-#if JUCE_ANDROID
+#if JUCE_ANDROID || JUCE_EMSCRIPTEN
 		AlertWindow::showMessageBoxAsync(
 			AlertWindow::WarningIcon, TRANS("Not Supported..."), TRANS("Choosing file to load instrument not supported."), "", nullptr, nullptr);
 #else
@@ -869,7 +869,7 @@ void Generic_Main_Component<T>::handle_save_bank(Component *clicked)
     auto overwrite_confirm =
         [this](const File &file) {
             bool confirm = true;
-            #if ! JUCE_ANDROID
+            #if ! JUCE_ANDROID && ! JUCE_EMSCRIPTEN
             if (file.exists()) {
                 String title = TRANS("File already exists");
                 String message = TRANS("There's already a file called: ")
@@ -887,7 +887,7 @@ void Generic_Main_Component<T>::handle_save_bank(Component *clicked)
     MySelectionCallback *callback = nullptr;
     callback = new MySelectionCallback([=](int selection) {
     if (selection == 1) {
-#if JUCE_ANDROID
+#if JUCE_ANDROID || JUCE_EMSCRIPTEN
 		AlertWindow::showMessageBoxAsync(
 			AlertWindow::WarningIcon, TRANS("Not Supported..."), TRANS("Choosing file to save bank not supported."), "", nullptr, nullptr);
 #else
@@ -914,7 +914,7 @@ void Generic_Main_Component<T>::handle_save_bank(Component *clicked)
             return;
         }
 
-#if JUCE_ANDROID
+#if JUCE_ANDROID || JUCE_EMSCRIPTEN
 		AlertWindow::showMessageBoxAsync(
 			AlertWindow::WarningIcon, TRANS("Not Supported..."), TRANS("Choosing file to save instrument not supported."), "", nullptr, nullptr);
 #else

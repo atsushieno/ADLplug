@@ -1214,7 +1214,7 @@ void Main_Component::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_btn_emulator] -- add your button handler code here..
         MySelectionCallback *callback = nullptr;
-        callback = new MySelectionCallback([this,&pb](int selection) {
+        callback = new MySelectionCallback([this,&pb,callback](int selection) {
         if (selection != 0 && (unsigned)(selection - 1) != chip_settings_.emulator) {
             AudioParameterChoice &p = *pb.p_emulator;
             p.beginChangeGesture();
