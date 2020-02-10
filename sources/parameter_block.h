@@ -11,6 +11,12 @@
 #include <memory>
 
 struct Basic_Parameter_Block {
+	Basic_Parameter_Block() {}
+	Basic_Parameter_Block(Basic_Parameter_Block& copy) {
+		jassertfalse;
+	}
+	~Basic_Parameter_Block() {}
+	
     template <AudioParameterType Ty, class... Arg>
     TypedAudioParameter<Ty> *add_automatable_parameter(AudioProcessorEx &p, int tag, Arg &&... args);
 

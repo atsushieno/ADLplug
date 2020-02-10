@@ -1041,13 +1041,17 @@ void Main_Component::buttonClicked (Button* buttonThatWasClicked)
     else if (buttonThatWasClicked == btn_emulator.get())
     {
         //[UserButtonCode_btn_emulator] -- add your button handler code here..
-        int selection = select_emulator_by_menu();
+        MySelectionCallback *callback = nullptr;
+        callback = new MySelectionCallback([this,&pb,callback](int selection) {
         if (selection != 0 && (unsigned)(selection - 1) != chip_settings_.emulator) {
             AudioParameterChoice &p = *pb.p_emulator;
             p.beginChangeGesture();
             p = selection - 1;
             p.endChangeGesture();
         }
+        if (callback != nullptr) delete callback;
+        });
+        select_emulator_by_menu_async(callback);
         //[/UserButtonCode_btn_emulator]
     }
     else if (buttonThatWasClicked == btn_algo_help.get())

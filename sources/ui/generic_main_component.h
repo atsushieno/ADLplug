@@ -18,6 +18,16 @@ class AdlplugAudioProcessor;
 struct Parameter_Block;
 class Configuration;
 
+class MySelectionCallback : public ModalComponentManager::Callback {
+  std::function<void(int)> f;
+public:
+  MySelectionCallback(std::function<void(int)> func) {
+	f = func;
+  }
+  void modalStateFinished (int returnValue) override { f(returnValue); }
+};
+std::unique_ptr<MySelectionCallback> createSelectionCallback(std::function<void(int)> func);
+
 template <class T>
 class Generic_Main_Component :
     public Component, public FocusChangeListener,
@@ -68,7 +78,7 @@ public:
 
     void update_emulator_icon();
     void build_emulator_menu(PopupMenu &menu);
-    int select_emulator_by_menu();
+    void select_emulator_by_menu_async(MySelectionCallback* callback);
 
     void handle_load_bank(Component *clicked);
     void handle_save_bank(Component *clicked);

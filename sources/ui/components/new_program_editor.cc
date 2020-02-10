@@ -218,9 +218,9 @@ void New_Program_Editor::buttonClicked (Button* buttonThatWasClicked)
             unsigned pgm = to_uint7(edt_pgm_num->getText().toRawUTF8());
 
             if (msb == ~0u || lsb == ~0u || pgm == ~0u)
-                AlertWindow::showMessageBox(
+                AlertWindow::showMessageBoxAsync(
                     AlertWindow::WarningIcon,
-                    "Invalid value", "Identifiers must be integers between 0 and 127.");
+                    "Invalid value", "Identifiers must be integers between 0 and 127.", "", nullptr, nullptr);
             else {
                 Result result;
                 result.bank = Bank_Id(msb, lsb, cb_pgm_kind->getSelectedId() - 1);
