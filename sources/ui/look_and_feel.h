@@ -33,10 +33,9 @@ private:
     struct Custom_Tooltip_Entry {
         Custom_Tooltip_Entry()
             {}
-        Custom_Tooltip_Entry(Custom_Tooltip_Entry &&other)
-            : component(other.component) {}
+        Custom_Tooltip_Entry(Custom_Tooltip_Entry &&other) {}
         Custom_Tooltip_Entry &operator=(Custom_Tooltip_Entry &&other)
-            { return component = other.component, *this; }
+            { return component.set(other.component.get(), false), *this; }
         OptionalScopedPointer<Component> component;
         JUCE_DECLARE_NON_COPYABLE(Custom_Tooltip_Entry)
     };
